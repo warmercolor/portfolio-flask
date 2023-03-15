@@ -3,19 +3,16 @@ from flask_mail import Mail, Message
 from config import key, email, password
 
 app = Flask(__name__)
-mail = Mail(app)
 app.secret_key = key
 
-mail_settings = {
-    "MAIL_SERVER": "smtp.gmail.com",
-    "MAIL_PORT": 465,
-    "MAIL_USE_TLS": False,
-    "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": email,
-    "MAIL_PASSWORD": password,
-}
+app.config["MAIL_SERVER"] = "smtp.gmail.com"
+app.config["MAIL_PORT"] = 465
+app.config["MAIL_USE_TLS"] = False
+app.config["MAIL_USE_SSL"] = True
+app.config["MAIL_USERNAME"] = email
+app.config["MAIL_PASSWORD"] = password
 
-app.config.update(mail_settings)
+mail = Mail(app)
 
 
 class Contact:
@@ -38,8 +35,8 @@ def send():
         )
         msg = Message(
             subject=f"{form_contact.name} te enviou uma mensagem no portfólio",
-            sender=app.config.get("MAIL_USERNAME"),
-            recipients=["thaisalic3@gmail.com", app.config.get("MAIL_USERNAME")],
+            sender=form_contact.email,
+            recipients=["thaisalic3@gmail.com"],
             body=f"""
 
                 {form_contact.name} com o e-mail {form_contact.email}, te enviou a seguinte mensagem:
