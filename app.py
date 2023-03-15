@@ -36,7 +36,7 @@ def send():
         form_contact = Contact(
             request.form["name"], request.form["email"], request.form["message"]
         )
-        message = Message(
+        msg = Message(
             subject=f"{form_contact.name} te enviou uma mensagem no portfólio",
             sender=app.config.get("MAIL_USERNAME"),
             recipients=["thaisalic3@gmail.com", app.config.get("MAIL_USERNAME")],
@@ -49,7 +49,7 @@ def send():
             """,
         )
 
-        mail.send(message)
+        mail.send(msg)
         flash("Mensagem enviada com sucesso!")
     return redirect("/")
 
